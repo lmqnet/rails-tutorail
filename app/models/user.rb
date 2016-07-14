@@ -45,8 +45,7 @@ class User < ApplicationRecord
   
   # Activates an account.
   def activate
-    update_attribute(:activated,    true)
-    update_attribute(:activated_at, Time.zone.now)
+    update_columns(activated: true, activated_at: Time.zone.now)
   end
 
   # Sends activation email.
@@ -59,12 +58,6 @@ class User < ApplicationRecord
     # Converts email to all lower-case.
     def downcase_email
       self.email = email.downcase
-    end
-    
-    # Creates and assigns the activation token and digest.
-    def create_activation_digest
-      self.activation_token  = User.new_token
-      self.activation_digest = User.digest(activation_token)
     end
     
     # Creates and assigns the activation token and digest.
